@@ -27,7 +27,9 @@ int createNonblockingOrDie(sa_family_t family);
 
 int  connect(int sockfd, const struct sockaddr* addr);
 void bindOrDie(int sockfd, const struct sockaddr* addr);
+int tryBind(int sockfd, const struct sockaddr* addr);
 void listenOrDie(int sockfd);
+int tryListen(int sockfd);
 int  accept(int sockfd, struct sockaddr_in6* addr);
 ssize_t read(int sockfd, void *buf, size_t count);
 ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);

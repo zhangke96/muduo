@@ -103,6 +103,17 @@ void sockets::bindOrDie(int sockfd, const struct sockaddr* addr)
   }
 }
 
+int sockets::tryBind(int sockfd, const struct sockaddr* addr)
+{
+  int ret = ::bind(sockfd, addr, static_cast<socklen_t>(sizeof(struct sockaddr_in6)));
+  if (ret < 0)
+  {
+    LOG_SYSERR << "sockets::tryBind";
+    return errno;
+  }
+  return 0;
+}
+
 void sockets::listenOrDie(int sockfd)
 {
   int ret = ::listen(sockfd, SOMAXCONN);
@@ -110,6 +121,17 @@ void sockets::listenOrDie(int sockfd)
   {
     LOG_SYSFATAL << "sockets::listenOrDie";
   }
+}
+
+int sockets::tryListen(int sockfd)
+{
+  int ret = ::listen(sockfd, SOMAXCONN);
+  if (ret < 0)
+  {
+    LOG_SYSERR << "sockets::tryListen";
+    return errno;
+  }
+  return 0;
 }
 
 int sockets::accept(int sockfd, struct sockaddr_in6* addr)

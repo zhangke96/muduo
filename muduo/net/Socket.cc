@@ -62,9 +62,27 @@ void Socket::bindAddress(const InetAddress& addr)
   sockets::bindOrDie(sockfd_, addr.getSockAddr());
 }
 
+std::pair<bool, int> Socket::tryBindAddress(const InetAddress& addr) {
+  int error = sockets::tryBind(sockfd_, addr.getSockAddr());
+  if (error) {
+    return {false, error};
+  } else {
+    return {true, 0};
+  }
+}
+
 void Socket::listen()
 {
   sockets::listenOrDie(sockfd_);
+}
+
+std::pair<bool, int> Socket::tryListen() {
+  int error = sockets::tryListen(sockfd_);
+  if (error) {
+    return {false, error};
+  } else {
+    return {true, 0};
+  }
 }
 
 int Socket::accept(InetAddress* peeraddr)

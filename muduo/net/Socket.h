@@ -11,6 +11,7 @@
 #ifndef MUDUO_NET_SOCKET_H
 #define MUDUO_NET_SOCKET_H
 
+#include <utility>
 #include "muduo/base/noncopyable.h"
 
 // struct tcp_info is in <netinet/tcp.h>
@@ -48,8 +49,13 @@ class Socket : noncopyable
 
   /// abort if address in use
   void bindAddress(const InetAddress& localaddr);
+
+  std::pair<bool, int> tryBindAddress(const InetAddress& addr);
+
   /// abort if address in use
   void listen();
+
+  std::pair<bool, int> tryListen();
 
   /// On success, returns a non-negative integer that is
   /// a descriptor for the accepted socket, which has been
